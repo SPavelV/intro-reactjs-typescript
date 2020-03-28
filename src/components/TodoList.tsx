@@ -12,6 +12,17 @@ export const TodoList: React.FC<TodoListProps> = ({
   onRemove,
   onToggle
 }) => {
+  
+  const removeHandler = (event: React.MouseEvent, id: number) => {
+    event.preventDefault();
+    onRemove(id)
+  }
+
+  if(todos.length === 0) {
+    return (
+      <p className="center">Пока дел нет</p>
+    )
+  }
   return (
     <ul>
       {todos.map(todo => {
@@ -26,12 +37,12 @@ export const TodoList: React.FC<TodoListProps> = ({
               <input
                 type="checkbox"
                 checked={todo.completed}
-                onChange={() => onToggle(todo.id)}
+                onChange={onToggle.bind(null, todo.id)}
               />
               <span>{todo.title}</span>
               <i
                 className="material-icons red-text"
-                onClick={() => onRemove(todo.id)}
+                onClick={(event) => removeHandler(event, todo.id)}
               >
                 delete
               </i>
